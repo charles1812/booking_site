@@ -6,14 +6,14 @@ A small, self-contained **property-management CMS**: a public booking site plus 
 
 | Page | What it is | Link |
 |------|------------|------|
-| **Home** | Landing page | https://charles1812.github.io/CAMPUSUITE_site/ |
-| **Stays** | All rooms, browsable | https://charles1812.github.io/CAMPUSUITE_site/rooms.html |
-| **Stay detail** | A single room (gallery, specs, price) | https://charles1812.github.io/CAMPUSUITE_site/room.html?id=azzurra |
-| **Contact** | Booking request form | https://charles1812.github.io/CAMPUSUITE_site/contact.html |
-| **Admin console** | Password-gated backend | https://charles1812.github.io/CAMPUSUITE_site/admin.html |
+| **Home** | Landing page | https://charles1812.github.io/booking_site/ |
+| **Stays** | All rooms, browsable | https://charles1812.github.io/booking_site/rooms.html |
+| **Stay detail** | A single room (gallery, specs, price) | https://charles1812.github.io/booking_site/room.html?id=azzurra |
+| **Contact** | Booking request form | https://charles1812.github.io/booking_site/contact.html |
+| **Admin console** | Password-gated backend | https://charles1812.github.io/booking_site/admin.html |
 
 > **Admin login:** `demo` / `demo123`
-> **Try the loop:** submit a request on the [contact page](https://charles1812.github.io/CAMPUSUITE_site/contact.html), then open the [admin console](https://charles1812.github.io/CAMPUSUITE_site/admin.html) → **Bookings** and watch it appear.
+> **Try the loop:** submit a request on the [contact page](https://charles1812.github.io/booking_site/contact.html), then open the [admin console](https://charles1812.github.io/booking_site/admin.html) → **Bookings** and watch it appear.
 
 ---
 
