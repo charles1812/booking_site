@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Miravel</title>
+  <meta name="description" content="Request information or reserve a Miravel stay. We reply within a day.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="brand"><span class="brand__mark">M</span> Miravel</a>
+    <ul class="nav__links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="rooms.html">Stays</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="admin.html">Console</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn--primary btn--sm nav__cta">Book a stay</a>
+    <button class="burger" onclick="toggleNav()">☰</button>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> › Contact</div>
+    <span class="eyebrow">Say hello</span>
+    <h1 class="display">Reserve a <em>stay.</em></h1>
+    <p>Tell us what you're looking for. Requests you send here land straight in the demo console under Bookings.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="display:grid;grid-template-columns:1.4fr .9fr;gap:48px;align-items:start">
+    <div>
+      <div id="form-notice" class="notice" style="display:none"></div>
+      <form id="contact-form">
+        <div class="field-row">
+          <div class="field"><label>First name *</label><input name="name" required></div>
+          <div class="field"><label>Last name</label><input name="surname"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Email *</label><input name="email" type="email" required></div>
+          <div class="field"><label>Phone</label><input name="phone"></div>
+        </div>
+        <div class="field"><label>Stay of interest</label><select name="room" id="room-select"></select></div>
+        <div class="field-row">
+          <div class="field"><label>Move-in date</label><input name="from" type="date"></div>
+          <div class="field"><label>Move-out date</label><input name="to" type="date"></div>
+        </div>
+        <div class="field"><label>Message</label><textarea name="message" placeholder="Tell us about your plans, questions or anything useful…"></textarea></div>
+        <button type="submit" class="btn btn--primary">Send request</button>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px">This is a demo — nothing is emailed. Your request is stored locally and shown in the console.</p>
+      </form>
+    </div>
+
+    <aside class="detail-side" style="position:static">
+      <div class="eyebrow" style="margin-bottom:12px">Where we are</div>
+      <p style="font-size:15px;line-height:1.7"><b>Miravel</b><br>Harbour District<br>(a fictional coastal town)</p>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--line-soft)">
+        <div class="eyebrow" style="margin-bottom:10px">Available now</div>
+        <div id="avail-list" style="font-size:14px;color:var(--ink-soft)"></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <a href="index.html" class="brand"><span class="brand__mark">M</span> Miravel</a>
+    <p class="footer__copy">© <span id="yr"></span> Miravel · A fictional demo brand · Harbour District</p>
+    <nav class="footer__nav">
+      <a href="index.html">Home</a><a href="rooms.html">Stays</a><a href="contact.html">Contact</a><a href="admin.html">Console</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/site.js"></script>
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  // available list
+  (function () {
+    const avail = Store.visibleRooms().filter(r => r.available);
+    document.getElementById("avail-list").innerHTML = avail.length
+      ? avail.map(r => `<div style="display:flex;justify-content:space-between;padding:5px 0"><a href="room.html?id=${r.id}" style="color:var(--teal)">${r.name}</a><span>€${r.price}/mo</span></div>`).join("")
+      : "No stays available right now.";
+  })();
+</script>
+</body>
+</html>

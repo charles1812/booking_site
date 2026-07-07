@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stays — Miravel</title>
+  <meta name="description" content="Browse every Miravel stay: singles, doubles, suites and family rooms, all furnished and steps from the harbour.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="brand"><span class="brand__mark">M</span> Miravel</a>
+    <ul class="nav__links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="rooms.html" class="active">Stays</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="admin.html">Console</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn--primary btn--sm nav__cta">Book a stay</a>
+    <button class="burger" onclick="toggleNav()">☰</button>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> › Stays</div>
+    <span class="eyebrow">The house</span>
+    <h1 class="display">Our <em>stays.</em></h1>
+    <p>Every room is furnished, connected and cleaned weekly. Pick the one that suits your season.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="rooms-grid" id="all-rooms"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <a href="index.html" class="brand"><span class="brand__mark">M</span> Miravel</a>
+    <p class="footer__copy">© <span id="yr"></span> Miravel · A fictional demo brand · Harbour District</p>
+    <nav class="footer__nav">
+      <a href="index.html">Home</a><a href="rooms.html">Stays</a><a href="contact.html">Contact</a><a href="admin.html">Console</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/site.js"></script>
+<script>document.getElementById("yr").textContent = new Date().getFullYear();</script>
+</body>
+</html>

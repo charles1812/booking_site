@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miravel — Boutique Stays by the Coast</title>
+  <meta name="description" content="Miravel offers modern, fully-equipped boutique stays a few steps from the harbour. Monthly rooms for students, remote workers and long visits.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="brand"><span class="brand__mark">M</span> Miravel</a>
+    <ul class="nav__links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="rooms.html">Stays</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="admin.html">Console</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn--primary btn--sm nav__cta">Book a stay</a>
+    <button class="burger" onclick="toggleNav()">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero__grid">
+    <div>
+      <span class="eyebrow">Boutique stays · Harbour district</span>
+      <h1 class="display">Stay a while,<br><span class="amber">feel at home.</span></h1>
+      <p>Miravel is a small house of monthly stays a few steps from the water — quiet, fully furnished, and ready the day you arrive. No setup, no fuss, just a good place to land.</p>
+      <div class="hero__actions">
+        <a href="rooms.html" class="btn btn--primary">Explore the stays</a>
+        <a href="contact.html" class="btn btn--ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero__visual">
+      <img src="https://picsum.photos/seed/miravel-hero/900/1100" alt="A bright room overlooking the harbour">
+      <div class="hero__badge">
+        <span class="dot"></span>
+        <div><b>4</b><br><span>stays open this season</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED STAYS -->
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">The house</span>
+      <h2 class="display">Find the stay <em>that fits you.</em></h2>
+    </div>
+    <div class="rooms-grid" id="featured-rooms"></div>
+    <div style="text-align:center;margin-top:40px">
+      <a href="rooms.html" class="btn btn--primary">View all stays</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow eyebrow--amber">What's always included</span>
+      <h2 class="display">The Miravel <em>standard.</em></h2>
+    </div>
+    <div class="features">
+      <div class="feature reveal">
+        <div class="feature__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg></div>
+        <h3>Ready to live</h3><p>Furnished, cleaned and stocked before you arrive. Bring a suitcase, nothing more.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12.5a11 11 0 0 1 14 0M1.4 9a16 16 0 0 1 21.2 0M8.5 16a6 6 0 0 1 7 0M12 20h.01"/></svg></div>
+        <h3>Fibre included</h3><p>Fast, reliable internet in every stay and every shared space, at no extra cost.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h3>Flexible terms</h3><p>Monthly agreements that follow your plans — clear, adaptable, no surprises.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7Z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+        <h3>By the water</h3><p>Five minutes from the harbour, the market and the coastal path. The good part of town.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="banner reveal">
+      <div>
+        <h2 class="display">Ready to settle in <em>this season?</em></h2>
+        <p>Stays are limited and go quickly before the term begins. Send a note and we'll hold one for you.</p>
+      </div>
+      <a href="contact.html" class="btn btn--amber">Reserve your stay</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <a href="index.html" class="brand"><span class="brand__mark">M</span> Miravel</a>
+    <p class="footer__copy">© <span id="yr"></span> Miravel · A fictional demo brand · Harbour District</p>
+    <nav class="footer__nav">
+      <a href="index.html">Home</a><a href="rooms.html">Stays</a><a href="contact.html">Contact</a><a href="admin.html">Console</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/site.js"></script>
+<script>document.getElementById("yr").textContent = new Date().getFullYear();</script>
+</body>
+</html>
