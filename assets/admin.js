@@ -56,7 +56,7 @@ function renderShell() {
       <aside class="sidebar">
         <div class="brand"><span class="brand__mark">M</span> Miravel</div>
         <nav class="side-nav" id="side-nav">
-          ${nav.map(([k, l, ic]) => `<button data-view="${k}">${ic}<span>${l}</span></button>`).join("")}
+          ${nav.map(([k, l, ic]) => `<button data-view="${k}">${ic}<span>${l}</span>${k === "bookings" ? '<span class="count" id="new-count" hidden></span>' : ""}</button>`).join("")}
         </nav>
         <div class="side-foot">
           <a href="index.html" target="_blank">${ICONS.view}<span>View live site</span></a>
@@ -81,8 +81,16 @@ function renderShell() {
 
 function paint() {
   document.querySelectorAll("#side-nav button").forEach(b => b.classList.toggle("active", b.dataset.view === currentView));
+  const newCount = Store.bookings().filter(b => b.status === "new").length;
+  const badge = document.getElementById("new-count");
+  if (badge) { badge.textContent = newCount; badge.hidden = !newCount; }
   const main = document.getElementById("admin-main");
-  if (currentView === "dash") main.innerHTML = viewDash();
+  if (!main) return;
+  if (currentView === "dash") {
+    main.innerHTML = viewDash();
+    document.getElementById("see-all")?.addEventListener("click", () => { currentView = "bookings"; paint(); });
+    wireBookings();
+  }
   if (currentView === "rooms") { main.innerHTML = viewRooms(); wireRooms(); }
   if (currentView === "bookings") { main.innerHTML = viewBookings(); wireBookings(); }
   if (currentView === "media") { main.innerHTML = viewMedia(); wireMedia(); }
@@ -107,10 +115,10 @@ function viewDash() {
       <div class="stat"><b class="tint">${newB}</b><span>New / unread</span></div>
     </div>
     <div class="panel">
-      <div class="panel__head"><h2>Recent requests</h2><button class="btn btn--ghost btn--sm" onclick="currentView='bookings';paint()">See all</button></div>
+      <div class="panel__head"><h2>Recent requests</h2><button class="btn btn--ghost btn--sm" id="see-all">See all</button></div>
       ${recent.length ? `<table class="table">
         <thead><tr><th>Guest</th><th>Stay</th><th>Dates</th><th>Status</th><th></th></tr></thead>
-        <tbody>${recent.map(bookingRow).join("")}</tbody></table>` :
+        <tbody>${recent.map(b => bookingRow(b)).join("")}</tbody></table>` :
       `<div class="empty-state">No requests yet.</div>`}
     </div>`;
 }
@@ -133,13 +141,13 @@ function viewRooms() {
 
 function roomRow(r) {
   return `<tr>
-    <td><img class="row-media" src="${esc(r.images[0] || "")}" alt=""></td>
-    <td><b>${esc(r.name)}</b><br><span style="color:var(--muted);font-size:12px">${esc(r.code)} · ${r.size} m²</span></td>
-    <td>${esc(r.type)}</td>
-    <td>€${r.price}<span style="color:var(--muted);font-size:12px">/mo</span></td>
-    <td><label class="toggle"><input type="checkbox" data-toggle="visible" data-id="${r.id}" ${r.visible ? "checked" : ""}><span class="track"></span></label></td>
-    <td><label class="toggle"><input type="checkbox" data-toggle="available" data-id="${r.id}" ${r.available ? "checked" : ""}><span class="track"></span></label></td>
-    <td><div class="row-actions">
+    <td class="cell-media"><img class="row-media" src="${esc(r.images[0] || "")}" alt=""></td>
+    <td><div><b>${esc(r.name)}</b><br><span style="color:var(--muted);font-size:12px">${esc(r.code)} · ${r.size} m²</span></div></td>
+    <td data-label="Type">${esc(r.type)}</td>
+    <td data-label="Price">€${r.price}<span style="color:var(--muted);font-size:12px">/mo</span></td>
+    <td data-label="Visible"><label class="toggle"><input type="checkbox" data-toggle="visible" data-id="${esc(r.id)}" ${r.visible ? "checked" : ""} aria-label="Visible on site"><span class="track"></span></label></td>
+    <td data-label="Available"><label class="toggle"><input type="checkbox" data-toggle="available" data-id="${esc(r.id)}" ${r.available ? "checked" : ""} aria-label="Available to book"><span class="track"></span></label></td>
+    <td class="cell-actions"><div class="row-actions">
       <button class="icon-btn" data-edit="${r.id}" title="Edit">${ICONS.edit}</button>
       <button class="icon-btn icon-btn--danger" data-del="${r.id}" title="Delete">${ICONS.trash}</button>
     </div></td>
@@ -265,20 +273,20 @@ function viewBookings() {
     <div class="panel">
       ${bookings.length ? `<table class="table">
         <thead><tr><th>Guest</th><th>Stay</th><th>Dates</th><th>Received</th><th>Status</th><th></th></tr></thead>
-        <tbody>${bookings.map(bookingRow).join("")}</tbody></table>` :
+        <tbody>${bookings.map(b => bookingRow(b, true)).join("")}</tbody></table>` :
       `<div class="empty-state">No requests yet. Submit the form on the <a href="contact.html" target="_blank" style="color:var(--teal)">contact page</a> to see one land here.</div>`}
     </div>`;
 }
 
-function bookingRow(b) {
+function bookingRow(b, withReceived = false) {
   const dates = b.from ? `${fmtDate(b.from)} → ${fmtDate(b.to)}` : "—";
   return `<tr>
-    <td><b>${esc(b.name)} ${esc(b.surname)}</b><br><span style="color:var(--muted);font-size:12px">${esc(b.email)}</span></td>
-    <td>${b.roomName ? esc(b.roomName) : '<span style="color:var(--muted)">—</span>'}</td>
-    <td style="font-size:13px">${dates}</td>
-    <td style="font-size:13px;color:var(--muted)">${fmtDate(b.createdAt)}</td>
-    <td><span class="pill pill--${b.status}">${b.status[0].toUpperCase() + b.status.slice(1)}</span></td>
-    <td><div class="row-actions">
+    <td><div><b>${esc(b.name)} ${esc(b.surname)}</b><br><span style="color:var(--muted);font-size:12px">${esc(b.email)}</span></div></td>
+    <td data-label="Stay">${b.roomName ? esc(b.roomName) : '<span style="color:var(--muted)">—</span>'}</td>
+    <td data-label="Dates" style="font-size:13px">${dates}</td>
+    ${withReceived ? `<td data-label="Received" style="font-size:13px;color:var(--muted)">${fmtDate(b.createdAt)}</td>` : ""}
+    <td data-label="Status"><span class="pill pill--${b.status}">${b.status[0].toUpperCase() + b.status.slice(1)}</span></td>
+    <td class="cell-actions"><div class="row-actions">
       <button class="icon-btn" data-open="${b.id}" title="Open">${ICONS.view}</button>
       <button class="icon-btn icon-btn--danger" data-delb="${b.id}" title="Delete">${ICONS.trash}</button>
     </div></td>
@@ -361,6 +369,18 @@ function wireMedia() {
 
 /* ---------------- utils ---------------- */
 function closeModal() { const m = document.getElementById("modal"); m.classList.remove("open"); m.innerHTML = ""; }
+function modalOpen() { return document.getElementById("modal")?.classList.contains("open"); }
+
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modalOpen()) closeModal(); });
+
+/* live sync: a request sent from the public site in another tab shows up here immediately */
+window.addEventListener("storage", (e) => {
+  if (e.key !== DB_KEY || !Auth.isAuthed() || modalOpen()) return;
+  const before = +(document.getElementById("new-count")?.textContent || 0);
+  paint();
+  const after = Store.bookings().filter(b => b.status === "new").length;
+  if (after > before) toast("New booking request received");
+});
 function slugify(s) { return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "stay-" + Date.now(); }
 
 /* ---------------- boot ---------------- */
