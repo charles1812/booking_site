@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Device Lab — Miravel</title>
+  <meta name="description" content="Try the Miravel booking CMS on a phone and a desktop at the same time, side by side.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230e4d52'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' text-anchor='middle' fill='%23d99441'%3EM%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#06282b">
+  <style>
+    :root {
+      --bg: #06282b; --bg-2: #0a3b3f; --ink: #eaf2f1; --muted: #93b3b1; --line: rgba(255,255,255,.12);
+      --amber: #d99441; --teal: #0e4d52; --frame: #111b1a;
+      --display: "Fraunces", Georgia, serif; --body: "Inter", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { font-family: var(--body); background: radial-gradient(1200px 600px at 70% -10%, #0e4d52 0%, var(--bg) 60%); color: var(--ink); min-height: 100%; }
+    a { color: inherit; }
+
+    .top { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; padding: 18px clamp(16px, 3vw, 36px); border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 21px; text-decoration: none; }
+    .brand b { width: 30px; height: 30px; border-radius: 8px; background: var(--amber); color: var(--bg-2); display: grid; place-items: center; font-size: 15px; font-weight: 600; }
+    .brand small { font-family: var(--body); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-left: 4px; }
+    .top__links { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill-link { font-size: 13px; font-weight: 500; text-decoration: none; padding: 8px 14px; border-radius: 100px; border: 1px solid var(--line); color: var(--ink); white-space: nowrap; }
+    .pill-link:hover { border-color: var(--amber); color: var(--amber); }
+    .pill-link--solid { background: var(--amber); color: #2a1c07; border-color: var(--amber); }
+    .pill-link--solid:hover { color: #2a1c07; filter: brightness(1.07); }
+
+    .controls { display: flex; flex-wrap: wrap; gap: 12px 26px; align-items: center; padding: 16px clamp(16px, 3vw, 36px) 4px; }
+    .group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .group__label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+    .seg { font-family: var(--body); font-size: 13px; font-weight: 500; color: var(--ink); background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 100px; padding: 7px 13px; cursor: pointer; }
+    .seg:hover { border-color: rgba(255,255,255,.3); }
+    .seg[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .hint { padding: 6px clamp(16px, 3vw, 36px) 0; font-size: 13px; color: var(--muted); min-height: 24px; }
+    .hint b { color: var(--amber); font-weight: 600; }
+
+    .stage { display: flex; gap: clamp(18px, 3vw, 40px); align-items: flex-start; justify-content: center; padding: 22px clamp(16px, 3vw, 36px) 40px; }
+    .device { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; }
+    .device__label { font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+    .device__label button { font: inherit; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+    .device__label button:hover { color: var(--ink); }
+    .screen { position: relative; overflow: hidden; background: #fff; }
+    .screen iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; background: #fff; }
+
+    /* desktop window chrome */
+    .device--desktop { flex: 1 1 auto; max-width: 1100px; }
+    .window { width: 100%; border-radius: 12px; overflow: hidden; background: var(--frame); box-shadow: 0 30px 80px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.06); }
+    .window__bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: #1b2625; }
+    .window__bar i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+    .window__bar i:nth-child(2) { background: #febc2e; } .window__bar i:nth-child(3) { background: #28c840; }
+    .window__url { margin-left: 12px; flex: 1; font-size: 12px; color: var(--muted); background: rgba(255,255,255,.06); border-radius: 6px; padding: 5px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* phone chrome */
+    .device--phone { flex: 0 0 auto; }
+    .phone { padding: 12px; border-radius: 46px; background: var(--frame); box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.08), inset 0 0 0 2px #2a3534; position: relative; }
+    .phone .screen { border-radius: 34px; }
+    .phone__notch { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 96px; height: 24px; border-radius: 20px; background: #000; z-index: 2; pointer-events: none; }
+
+    body[data-layout="phone"] .device--desktop, body[data-layout="desktop"] .device--phone { display: none; }
+    body[data-layout="desktop"] .device--desktop { max-width: 1400px; }
+
+    .note { max-width: 760px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 36px) 48px; color: var(--muted); font-size: 14px; line-height: 1.7; text-align: center; }
+    .note a { color: var(--amber); }
+
+    /* on a real phone there is no room for two frames: show one at a time */
+    @media (max-width: 760px) {
+      .top__links { margin-left: 0; }
+      body:not([data-layout="desktop"]) .device--desktop { display: none; }
+      body:not([data-layout="desktop"]) .device--phone { display: flex; }
+      .layout-both { display: none; }
+      .phone { padding: 8px; border-radius: 36px; }
+      .phone .screen { border-radius: 28px; }
+      .phone__notch { top: 14px; width: 80px; height: 20px; }
+    }
+  </style>
+</head>
+<body data-layout="both">
+
+<header class="top">
+  <a class="brand" href="index.html"><b>M</b> Miravel <small>Device lab</small></a>
+  <nav class="top__links">
+    <a class="pill-link" href="index.html">Open the site</a>
+    <a class="pill-link" href="admin.html">Open the console</a>
+    <a class="pill-link pill-link--solid" href="https://github.com/charles1812/booking_site" target="_blank" rel="noopener">GitHub ↗</a>
+  </nav>
+</header>
+
+<div class="controls">
+  <div class="group" id="pages">
+    <span class="group__label">Page</span>
+  </div>
+  <div class="group" id="layouts">
+    <span class="group__label">View</span>
+    <button class="seg layout-both" data-layout="both" aria-pressed="true">Side by side</button>
+    <button class="seg" data-layout="phone" aria-pressed="false">Phone</button>
+    <button class="seg" data-layout="desktop" aria-pressed="false">Desktop</button>
+  </div>
+  <div class="group">
+    <span class="group__label">Demo</span>
+    <button class="seg" id="loop-btn" aria-pressed="false">⚡ Live booking loop</button>
+    <button class="seg" id="reset-btn">↺ Reset data</button>
+  </div>
+</div>
+<p class="hint" id="hint"></p>
+
+<main class="stage">
+  <section class="device device--desktop" aria-label="Desktop preview">
+    <div class="window">
+      <div class="window__bar"><i></i><i></i><i></i><span class="window__url" id="desk-url"></span></div>
+      <div class="screen" id="desk-screen"><iframe id="desk" title="Desktop preview"></iframe></div>
+    </div>
+    <div class="device__label">Desktop · 1280 px <button data-reload="desk">Reload</button></div>
+  </section>
+
+  <section class="device device--phone" aria-label="Phone preview">
+    <div class="phone">
+      <div class="phone__notch"></div>
+      <div class="screen" id="phone-screen"><iframe id="phone" title="Phone preview"></iframe></div>
+    </div>
+    <div class="device__label">Phone · 390 px <button data-reload="phone">Reload</button></div>
+  </section>
+</main>
+
+<p class="note">Both screens run the real site from this repository. They share the same browser storage,
+  so a change made in one shows up in the other, just like the public site and the console do in production.
+  Everything stays in your browser. Built by <a href="https://github.com/charles1812" target="_blank" rel="noopener">@charles1812</a>.</p>
+
+<script>
+  const PAGES = [
+    ["Home", "index.html"],
+    ["Stays", "rooms.html"],
+    ["Stay detail", "room.html?id=azzurra"],
+    ["Contact", "contact.html"],
+    ["Console", "admin.html"],
+  ];
+  const DESK = { w: 1280, h: 800 }, PHONE = { w: 390, h: 844 };
+  const desk = document.getElementById("desk"), phone = document.getElementById("phone");
+  let page = PAGES[0][1], loop = false;
+
+  const pagesEl = document.getElementById("pages");
+  pagesEl.insertAdjacentHTML("beforeend", PAGES.map(([label, url]) =>
+    `<button class="seg" data-page="${url}" aria-pressed="${url === page}">${label}</button>`).join(""));
+
+  function setSrc(frame, url) {
+    if (frame.dataset.src !== url) { frame.dataset.src = url; frame.src = url; }
+  }
+
+  function load() {
+    if (loop) { setSrc(phone, "contact.html?room=onda"); setSrc(desk, "admin.html"); }
+    else { setSrc(phone, page); setSrc(desk, page); }
+    document.getElementById("desk-url").textContent = new URL(desk.dataset.src, location.href).href;
+    pagesEl.querySelectorAll("[data-page]").forEach(b => b.setAttribute("aria-pressed", String(!loop && b.dataset.page === page)));
+    document.getElementById("loop-btn").setAttribute("aria-pressed", String(loop));
+    document.getElementById("hint").innerHTML = loop
+      ? "<b>Live loop:</b> send a booking request from the phone, then watch it land in the console on the desktop, no reload needed. (Demo login: demo / demo123.)"
+      : "Pick a page and use it on both screens at once. Tip: open <b>Console</b>, then change a stay on one screen and watch the other.";
+  }
+
+  /* scale each iframe so its real viewport (1280 / 390 px) fits the frame */
+  function fit() {
+    const narrow = matchMedia("(max-width: 760px)").matches;
+    const layout = document.body.dataset.layout;
+    const deskBox = document.getElementById("desk-screen");
+    const stageW = document.querySelector(".stage").clientWidth - 2 * parseFloat(getComputedStyle(document.querySelector(".stage")).paddingLeft);
+    const phoneMaxH = Math.max(420, window.innerHeight - 230);
+    const phoneScale = Math.min(1, phoneMaxH / PHONE.h, (narrow ? stageW - 16 : 9999) / PHONE.w);
+    const ps = document.getElementById("phone-screen");
+    ps.style.width = PHONE.w * phoneScale + "px";
+    ps.style.height = PHONE.h * phoneScale + "px";
+    Object.assign(phone.style, { width: PHONE.w + "px", height: PHONE.h + "px", transform: `scale(${phoneScale})` });
+
+    const deskW = deskBox.parentElement.clientWidth || Math.min(1100, stageW);
+    const deskScale = deskW / DESK.w;
+    deskBox.style.height = DESK.h * deskScale + "px";
+    Object.assign(desk.style, { width: DESK.w + "px", height: DESK.h + "px", transform: `scale(${deskScale})` });
+  }
+
+  pagesEl.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-page]");
+    if (!b) return;
+    page = b.dataset.page; loop = false; load();
+  });
+  document.getElementById("layouts").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-layout]");
+    if (!b) return;
+    document.body.dataset.layout = b.dataset.layout;
+    document.querySelectorAll("#layouts [data-layout]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    requestAnimationFrame(fit);
+  });
+  document.getElementById("loop-btn").addEventListener("click", () => {
+    loop = !loop;
+    if (loop) {
+      try { sessionStorage.setItem("miravel_auth_v1", "1"); } catch (e) {}
+      if (matchMedia("(max-width: 760px)").matches) document.querySelector('#layouts [data-layout="phone"]').click();
+    }
+    load();
+  });
+  document.getElementById("reset-btn").addEventListener("click", () => {
+    try { localStorage.removeItem("miravel_db_v1"); } catch (e) {}
+    [desk, phone].forEach(f => f.contentWindow?.location.reload());
+  });
+  document.querySelectorAll("[data-reload]").forEach(b => b.addEventListener("click", () =>
+    document.getElementById(b.dataset.reload).contentWindow?.location.reload()));
+
+  /* #loop or #page=contact.html let you link straight to a preset */
+  const hash = new URLSearchParams(location.hash.slice(1));
+  if (hash.has("loop")) loop = true;
+  if (hash.get("page")) page = hash.get("page");
+
+  new ResizeObserver(fit).observe(document.querySelector(".stage"));
+  window.addEventListener("resize", fit);
+  load();
+  fit();
+</script>
+</body>
+</html>

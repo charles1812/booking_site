@@ -2,10 +2,15 @@
 
 A small, self-contained **property-management CMS**: a public booking site plus an admin console for managing rooms, bookings and media. This repository is a **fully deployable demo** — open it on GitHub Pages and you can log into the backend, edit stays, and watch a booking submitted on the public form appear in the admin panel in real time.
 
+### 📱💻 [Try it on phone and desktop at once → Device lab](https://charles1812.github.io/booking_site/preview.html)
+
+The device lab runs the real site inside a phone frame and a desktop window, side by side. Hit **⚡ Live booking loop** to send a request from the phone and watch it land in the admin console on the desktop, live, with no reload.
+
 ## 🔗 Live pages
 
 | Page | What it is | Link |
 |------|------------|------|
+| **Device lab** | Phone + desktop preview, live booking loop | https://charles1812.github.io/booking_site/preview.html |
 | **Home** | Landing page | https://charles1812.github.io/booking_site/ |
 | **Stays** | All rooms, browsable | https://charles1812.github.io/booking_site/rooms.html |
 | **Stay detail** | A single room (gallery, specs, price) | https://charles1812.github.io/booking_site/room.html?id=azzurra |
@@ -31,7 +36,10 @@ This is a compact, front-to-back reimplementation of a real production system I 
 - Responsive landing page with featured stays pulled from the data layer
 - Stays grid + individual detail pages (gallery, specs, amenities, price)
 - Availability badges driven by the same data the admin edits
-- Booking request form with client-side validation
+- Stays page with filters by type, *available only* toggle and sorting by price or size
+- Gallery with thumbnails (click or keyboard)
+- Booking request form with client-side validation (required fields, move-out after move-in, no past dates)
+- Mobile-first layout: works the same on a phone, a tablet and a desktop
 
 **Admin console**
 - Login screen (demo credentials shown on the page)
@@ -40,6 +48,8 @@ This is a compact, front-to-back reimplementation of a real production system I 
 - **Bookings**: inbox of incoming requests, open a request, change status (New to Confirmed / Declined), delete
 - **Media**: image library you can add to and prune, referenced when editing a stay
 - **Reset demo data** button to restore the original seed at any time
+- **Live sync**: a request sent from the public site in another tab shows up in the console instantly, with an unread badge and a notification
+- Tables turn into stacked cards on phones, so every action stays reachable on a small screen
 
 ---
 
@@ -82,6 +92,7 @@ Data is stored in your browser (`localStorage`), so your edits persist between v
 ├── room.html           Stay detail (?id=…)
 ├── contact.html        Booking request form
 ├── admin.html          Admin console (renders from admin.js)
+├── preview.html        Device lab: phone + desktop side by side
 └── assets/
     ├── style.css       Design system (tokens, components)
     ├── data.js         Seed data + store + auth helpers
@@ -107,6 +118,12 @@ The production build is a different, hardened stack — the public demo here is 
 - A **bilingual (IT / EN)** public site with automatic language detection
 
 The Miravel demo mirrors the *product* — the room CMS, the bookings workflow, the media library, the public booking flow — without any of the production security surface, because none of that belongs in a public repo.
+
+---
+
+## Author
+
+Designed and built by **Charles** · [@charles1812](https://github.com/charles1812).
 
 ---
 
